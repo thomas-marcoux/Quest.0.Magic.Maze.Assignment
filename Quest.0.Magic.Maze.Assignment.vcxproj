@@ -41,6 +41,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(ProjectDir)Game\</OutDir>
     <IntDir>$(ProjectDir)Temp\</IntDir>
+    <SourcePath>$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -68,13 +69,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Source\definitions.h" />
+    <ClInclude Include="Source\MagicRoom.h" />
+    <ClInclude Include="Source\MagicRoomFactory.h" />
+    <ClInclude Include="Source\NormalRoom.h" />
+    <ClInclude Include="Source\NormalRoomFactory.h" />
     <ClInclude Include="Source\Room.h" />
+    <ClInclude Include="Source\RoomFactory.h" />
     <ClInclude Include="Source\RoomMap.h" />
     <ClInclude Include="Source\ThirdParty\tinyxml\tinystr.h" />
     <ClInclude Include="Source\ThirdParty\tinyxml\tinyxml.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\MagicRoom.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\NormalRoom.cpp" />
+    <ClCompile Include="Source\Room.cpp" />
+    <ClCompile Include="Source\RoomMap.cpp" />
     <ClCompile Include="Source\ThirdParty\tinyxml\tinystr.cpp" />
     <ClCompile Include="Source\ThirdParty\tinyxml\tinyxml.cpp" />
     <ClCompile Include="Source\ThirdParty\tinyxml\tinyxmlerror.cpp" />
@@ -83,6 +93,9 @@
   <ItemGroup>
     <Xml Include="Config\puzzle.xml" />
     <Xml Include="Config\test.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

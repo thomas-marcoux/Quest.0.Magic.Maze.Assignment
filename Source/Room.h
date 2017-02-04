@@ -14,8 +14,8 @@ class RoomMap;
 class Room
 {
 public:
-	Room();
-	~Room();
+	Room() {}
+	~Room() {}
 	bool Initialize(TiXmlElement*);//char,END_CONDITION,std::string,std::string);
 	virtual Room* execute(RoomMap*, int &) = 0;
 	bool finish();

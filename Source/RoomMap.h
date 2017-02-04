@@ -13,7 +13,7 @@
 class RoomMap
 {
 public:
-	RoomMap();
+	RoomMap() {}
 	bool Initialize(std::string configFile);
 	Room* findNext(Room*); 
 	void randomizeRooms();
