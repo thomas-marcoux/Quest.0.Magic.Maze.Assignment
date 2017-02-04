@@ -1,3 +1,6 @@
+#include <algorithm>
+#include <random>
+#include <vector>
 #include "RoomMap.h"
 #include "NormalRoomFactory.h"
 #include "MagicRoomFactory.h"
@@ -14,9 +17,39 @@ Room* RoomMap::findNext(Room* room)
 	return (room == NULL) ? rooms.find("start")->second : rooms.find(room->next())->second;
 }
 
+//Sets a single URNG.
+std::default_random_engine&	global_urng()
+{
+	static std::default_random_engine  u{};
+	return u;
+}
+
+//Sets the shared URNG to an unpredictable state
+void	randomize()
+{
+	static std::random_device	rd{};
+	global_urng().seed(rd());
+}
+
 void RoomMap::randomizeRooms()
 {
+	std::vector<Room*>	buff;
 
+	for (auto room : rooms)
+	{
+		if (room.first != "quit")
+			buff.push_back(room.second);
+	}
+	randomize();
+	std::shuffle(buff.begin(), buff.end(), global_urng());
+	for (auto room : rooms)
+	{
+		if (room.first != "quit")
+		{
+			rooms[room.first] = buff.back();
+			buff.pop_back();
+		}
+	}
 }
 
 bool RoomMap::LoadLevel(const char* configFile)

@@ -13,5 +13,6 @@ Room * NormalRoom::execute(RoomMap *map, int &health)
 	}
 	std::cout << std::endl << "Select move: " << std::endl;
 	std::cin >> transition;
+	--health;
 	return map->findNext(this);
 }

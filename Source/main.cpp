@@ -79,8 +79,8 @@ void splashScreen()
 {
 	std::cout << "ROOM PUZZLE" << std::endl;
 	std::cout << std::endl;
-	std::cout << "Your name here (2015)" << std::endl;
-	std::cout << "CPSC 4399/4399, Advanced Game Programming, Homework 0" << std::endl;
+	std::cout << "Thomas Marcoux (2017)" << std::endl;
+	std::cout << "CPSC 4377/5377, Advanced Game Programming, Homework 0" << std::endl;
 	std::cout << "UALR, Computer Science Dept." << std::endl;
 	std::cout << std::endl;
 	std::cout << "INSTRUCTIONS: Find the finish!" << std::endl;
