@@ -69,16 +69,16 @@ bool RoomMap::LoadLevel(const char* configFile)
 	std::string	type;
 	TiXmlDocument doc(configFile);
 	if (!doc.LoadFile()) return false;
-	TiXmlHandle hDoc(&doc);
-	TiXmlElement* pElem;
-	TiXmlHandle hRoot(0);
+	TiXmlHandle headDoc(&doc);
+	TiXmlElement* elem;
+	TiXmlHandle root(0);
 
 	//Sets the root
-	pElem = hDoc.FirstChildElement().Element();
-	if (!pElem) return false;
-	hRoot = TiXmlHandle(pElem);
+	elem = headDoc.FirstChildElement().Element();
+	if (!elem) return false;
+	root = TiXmlHandle(elem);
 	//Browse all "Room" tags in the file.
-	TiXmlElement* RoomNode = hRoot.FirstChild("Room").Element();
+	TiXmlElement* RoomNode = root.FirstChild("Room").Element();
 	if (!RoomNode) return false;
 	for (RoomNode; RoomNode; RoomNode = RoomNode->NextSiblingElement())
 	{
