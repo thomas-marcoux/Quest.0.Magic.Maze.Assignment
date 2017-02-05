@@ -3,6 +3,7 @@
 
 #include "NormalRoom.h"
 
+//Creates NormalRoom objects.
 class NormalRoomFactory : RoomFactory
 {
 public:

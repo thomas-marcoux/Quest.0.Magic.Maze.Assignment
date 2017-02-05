@@ -1,23 +1,40 @@
 #include "Room.h"
 
+/*
+Initializes Room attributes from XML.
+Returns false if loading was unsuccessful.
+*/
 bool Room::Initialize(TiXmlElement* RoomNode)
 {
+	const char *attr_condition, *attr_identifier, *attr_description, *attr_transition, *attr_target;
 	TiXmlElement* NeighborNode = TiXmlHandle(RoomNode).FirstChild().Element();
-	condition = (END_CONDITION)atoi(RoomNode->Attribute("condition"));
-	identifier = RoomNode->Attribute("name");
-	description = RoomNode->Attribute("description");
+
+	attr_condition = RoomNode->Attribute("condition");
+	attr_identifier = RoomNode->Attribute("name");
+	attr_description = RoomNode->Attribute("description");
+	//Verifies the existence of each attribute.
+	if (!attr_condition || !attr_identifier || !attr_description) return false;
+	condition = (END_CONDITION)atoi(attr_condition);
+	identifier = attr_identifier;
+	description = attr_description;
 	for (NeighborNode; NeighborNode; NeighborNode = NeighborNode->NextSiblingElement())
 	{
-		this->addNeighbor(NeighborNode->Attribute("transition"), NeighborNode->Attribute("target"));
+		attr_transition = NeighborNode->Attribute("transition");
+		attr_target = NeighborNode->Attribute("target");
+		//Verifies the existence of each attribute.
+		if (!attr_transition || !attr_target) return false;
+		this->addNeighbor(attr_transition, attr_target);
 	}
 	return true;
 }
 
+//Returns a boolean indicating whether the game is over.
 bool Room::finish()
 {
 	return (condition == NONE) ? false : true;
 }
 
+//Returns the identifier of the destination room.
 std::string Room::next()
 {
 	return neighbors.find(transition)->second;

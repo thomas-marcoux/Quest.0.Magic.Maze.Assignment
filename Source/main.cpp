@@ -10,7 +10,7 @@
 *           pattern in combination with XML parsing for configuration
 */
 
-#include<iostream>
+#include <iostream>
 #include "RoomMap.h"
 #include "Room.h"
 
@@ -31,12 +31,17 @@ int main()
 	//Declare Game Space
 	RoomMap* map = NULL;
 	Room* room = NULL;
+	std::string	configFile = "./Config/puzzle.xml";
 	int health = -1;  //Need to wrap this in somehting
 
 	//Initialize Resource Management
 	map = new RoomMap();
-	map->Initialize("./Config/puzzle.xml");
-
+	if (!map->Initialize(configFile))
+	{
+		std::cout << "Could not load " << configFile << std::endl;
+		pauseConsole();
+		return 0;
+	}
 	//Initialize Game State
 	room = map->findNext(room);
 	health = 10;	

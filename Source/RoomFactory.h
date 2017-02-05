@@ -3,6 +3,7 @@
 
 #include "Room.h"
 
+//Object factory creating normal or magic rooms.
 class RoomFactory
 {
 public:

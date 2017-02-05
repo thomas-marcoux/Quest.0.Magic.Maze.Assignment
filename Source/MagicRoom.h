@@ -3,6 +3,7 @@
 
 #include "Room.h"
 
+//Child of Room, adds extra features to the execute method.
 class MagicRoom : Room
 {
 public:

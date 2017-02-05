@@ -10,6 +10,7 @@
 #include"ThirdParty\tinyxml\tinystr.h"
 #include"ThirdParty\tinyxml\tinyxml.h"
 
+//Room container
 class RoomMap
 {
 public:

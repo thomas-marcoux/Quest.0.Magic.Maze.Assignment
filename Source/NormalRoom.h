@@ -3,6 +3,7 @@
 
 #include "Room.h"
 
+//Child of Room, implements the execute virtual method.
 class NormalRoom : Room
 {
 public:

@@ -3,6 +3,7 @@
 
 #include "MagicRoom.h"
 
+//Creates MagicRoom objects
 class MagicRoomFactory : RoomFactory
 {
 public:

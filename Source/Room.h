@@ -16,7 +16,7 @@ class Room
 public:
 	Room() {}
 	~Room() {}
-	bool Initialize(TiXmlElement*);//char,END_CONDITION,std::string,std::string);
+	bool Initialize(TiXmlElement*);
 	virtual Room* execute(RoomMap*, int &) = 0;
 	bool finish();
 	std::string next();
