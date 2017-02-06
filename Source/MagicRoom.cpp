@@ -5,7 +5,8 @@
 
 /*
 The MagicRoom's execute function displays information,
-updates player health, randomizes the rooms and prompts the user for input
+updates player health, empties inventory, randomizes the rooms
+and prompts the user for input
 while checking that the input is valid.
 It returns the next room.
 */
@@ -19,6 +20,9 @@ Room * MagicRoom::execute(RoomMap *map, int &health)
 	map->randomizeRooms();
 	std::cout << "View: " << description << std::endl;
 	std::cout << "Health: " << health << std::endl;
+	map->emptyInventory();
+	std::cout << "Inventory: ";
+	map->showInventory();
 	//Stores possible moves in a set
 	for (auto neighbor : neighbors)
 		possible_moves.insert(neighbor.first);

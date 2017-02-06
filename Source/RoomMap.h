@@ -3,6 +3,7 @@
 
 #include<map>
 #include<string>
+#include<vector>
 
 #include"Room.h"
 #include"RoomFactory.h"
@@ -14,14 +15,23 @@
 class RoomMap
 {
 public:
-	RoomMap() {}
+	RoomMap();
 	bool Initialize(std::string configFile);
 	Room* findNext(Room*); 
 	void randomizeRooms();
+	bool hasItem(Room*);
+	void addItem(Room*);
+	void showInventory();
+	void emptyInventory();
+	bool saveState(Room*, int&);
+	bool loadState();
 
 private:
 	std::map<std::string,RoomFactory*> roomLibrary;
 	std::map<std::string,Room*> rooms;
+	std::map<std::string, std::string> playerInventory;
+	std::map<std::string, std::string> roomInventory;
+	std::vector<std::string> itemBank;
 
 	//Private XML level loading instructions
 	bool RoomMap::LoadLevel(const char* configFile);

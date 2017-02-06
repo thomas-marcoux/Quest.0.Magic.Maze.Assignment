@@ -5,7 +5,7 @@
 
 /*
 The NormalRoom's execute function displays information,
-updates player health, and prompts the user for input
+updates player health and inventory, and prompts the user for input
 while checking that the input is valid.
 It returns the next room.
 */
@@ -16,6 +16,10 @@ Room * NormalRoom::execute(RoomMap *map, int &health)
 
 	std::cout << "View: " << description << std::endl;
 	std::cout << "Health: " << health << std::endl;
+	if (!map->hasItem(this))
+		map->addItem(this);
+	std::cout << "Inventory: ";
+	map->showInventory();
 	//Stores possible moves in a set
 	for (auto neighbor : neighbors)
 		possible_moves.insert(neighbor.first);
