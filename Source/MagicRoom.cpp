@@ -34,6 +34,10 @@ Room * MagicRoom::execute(RoomMap *map, int &health)
 			std::cout << " " << move;
 		std::cout << std::endl << "Select move: " << std::endl;
 		std::cin >> input;
+		if (input == "save")
+			map->saveState(this, health);
+		if (input == "load")
+			return map->loadState(this, health);
 	}
 	transition = input;
 	return map->findNext(this);

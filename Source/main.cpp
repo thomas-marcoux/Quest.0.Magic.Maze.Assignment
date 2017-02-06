@@ -89,6 +89,7 @@ void splashScreen()
 	std::cout << "UALR, Computer Science Dept." << std::endl;
 	std::cout << std::endl;
 	std::cout << "INSTRUCTIONS: Find the finish!" << std::endl;
+	std::cout << "Type 'save' and 'load' to manage your progress." << std::endl;
 	std::cout << std::endl;
 	pauseConsole();
 }

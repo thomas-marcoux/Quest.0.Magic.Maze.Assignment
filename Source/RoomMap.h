@@ -24,7 +24,7 @@ public:
 	void showInventory();
 	void emptyInventory();
 	bool saveState(Room*, int&);
-	bool loadState();
+	Room* loadState(Room*, int&);
 
 private:
 	std::map<std::string,RoomFactory*> roomLibrary;
@@ -35,6 +35,9 @@ private:
 
 	//Private XML level loading instructions
 	bool RoomMap::LoadLevel(const char* configFile);
+	//Private inventory loading/saving instructions
+	bool RoomMap::loadInventory(TiXmlElement*,std::map<std::string, std::string>&);
+	bool RoomMap::saveInventory(TiXmlElement*, std::map<std::string, std::string>&);
 };
 
 #endif

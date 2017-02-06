@@ -106,30 +106,102 @@ bool	RoomMap::saveState(Room* room, int &health)
 	TiXmlDeclaration* decl = new TiXmlDeclaration("1.0", "", "");
 	TiXmlElement * root = new TiXmlElement("Save");
 	TiXmlComment * comment = new TiXmlComment();
-	TiXmlElement * player = new TiXmlElement("Player Data");
-	TiXmlElement * inventory = new TiXmlElement("Inventory");
-	TiXmlElement* item;
+	TiXmlElement * player = new TiXmlElement("Player");
+	TiXmlElement * p_inventory = new TiXmlElement("Inventory");
+	TiXmlElement * r_inventory = new TiXmlElement("RoomInventory");
+	TiXmlElement* p_item;
+	
 
 	doc.LinkEndChild(decl);
 	doc.LinkEndChild(root);
 	comment->SetValue("Player State");
 	root->LinkEndChild(comment);
-
-
-	root->LinkEndChild(inventory);
-
-	item = new TiXmlElement("Welcome");
-	item->LinkEndChild(new TiXmlText("Welcome to MyApp"));
-	item->SetAttribute("x", 5);
-	inventory->LinkEndChild(item);
-
-	doc.SaveFile("save.xml");
+	player->SetAttribute("health", health);
+	player->SetAttribute("position", room->getIdentifier().c_str());
+	root->LinkEndChild(player);
+	player->LinkEndChild(p_inventory);
+	saveInventory(p_inventory, playerInventory);
+	root->LinkEndChild(r_inventory);
+	saveInventory(r_inventory, roomInventory);
+	doc.SaveFile(SAVE_FILE);
 	return true;
 }
 
-//Load the saved state
-bool	RoomMap::loadState()
+//Save the inventory data from inventory under inventoryNode.
+bool	RoomMap::saveInventory(TiXmlElement* inventoryNode, std::map<std::string, std::string> &inventory)
 {
+	TiXmlElement* itemNode;
+
+	for (auto item : inventory)
+	{
+		itemNode = new TiXmlElement("Item");
+		inventoryNode->LinkEndChild(itemNode);
+		itemNode->SetAttribute("room", item.first.c_str());
+		itemNode->SetAttribute("name", item.second.c_str());
+	}
+	return true;
+}
+
+
+//Load the saved state, returns the room the player saved the game in, or the current room if the loading fails
+Room*	RoomMap::loadState(Room* room, int &health)
+{
+	try
+	{
+		TiXmlDocument doc(SAVE_FILE);
+		if (!doc.LoadFile()) throw LOAD_ERROR;
+		TiXmlHandle headDoc(&doc);
+		TiXmlElement* elem;
+		TiXmlHandle root(0);
+		TiXmlElement* playerNode;
+		TiXmlElement* roomInventoryNode;
+		TiXmlElement* playerInventoryNode;
+		std::map<std::string, std::string> p_invent;
+		std::map<std::string, std::string> r_invent;
+		const char *attr_health, *attr_position;
+
+		//Sets the root
+		elem = headDoc.FirstChildElement().Element();
+		if (!elem) throw PARSE_ERROR;
+		root = TiXmlHandle(elem);
+		//Selects Player node and Player Inventory node and verififies they exist
+		playerNode = root.FirstChild("Player").Element();
+		if (!playerNode) throw PARSE_ERROR;
+		attr_health = playerNode->Attribute("health");
+		attr_position = playerNode->Attribute("position");
+		if (!attr_health || !attr_position) throw PARSE_ERROR; //Checks attributes exist
+		if (rooms.find(attr_position) == rooms.end()) throw PARSE_ERROR; //Checks room loaded exists
+		playerInventoryNode = TiXmlHandle(playerNode).FirstChild("Inventory").Element();
+		if (!playerInventoryNode) throw PARSE_ERROR;
+		if (!loadInventory(playerInventoryNode, p_invent)) throw PARSE_ERROR;
+		roomInventoryNode = root.FirstChild("RoomInventory").Element();
+		if (!roomInventoryNode) throw PARSE_ERROR;
+		if (!loadInventory(roomInventoryNode, r_invent)) throw PARSE_ERROR;
+		playerInventory = p_invent;
+		roomInventory = r_invent;
+		health = atoi(attr_health);
+		return rooms.find(attr_position)->second;
+	}
+	catch (std::string error)
+	{
+		std::cout << error << " Restoring latest state." << std::endl;
+		return room;
+	}
+}
+
+//Load the inventory data contained in inventoryNode into buff.
+bool	RoomMap::loadInventory(TiXmlElement* inventoryNode,std::map<std::string, std::string> &buff)
+{
+	TiXmlElement* itemNode = TiXmlHandle(inventoryNode).FirstChild().Element();
+	const char *attr_room, *attr_name;
+
+	for (itemNode; itemNode; itemNode = itemNode->NextSiblingElement())
+	{
+		attr_room = itemNode->Attribute("room");
+		attr_name = itemNode->Attribute("name");
+		if (!attr_room || !attr_name) return false;
+		buff[attr_room] = attr_name;
+	}
 	return true;
 }
 
@@ -180,15 +252,15 @@ bool RoomMap::LoadLevel(const char* configFile)
 	if (!elem) return false;
 	root = TiXmlHandle(elem);
 	//Browse all "Room" tags in the file.
-	TiXmlElement* RoomNode = root.FirstChild("Room").Element();
-	if (!RoomNode) return false;
-	for (RoomNode; RoomNode; RoomNode = RoomNode->NextSiblingElement())
+	TiXmlElement* roomNode = root.FirstChild("Room").Element();
+	if (!roomNode) return false;
+	for (roomNode; roomNode; roomNode = roomNode->NextSiblingElement())
 	{
-		type = RoomNode->Attribute("type");
+		type = roomNode->Attribute("type");
 		//Checks that the type exists and is contained in the roomLibrary
 		if (roomLibrary.find(type) == roomLibrary.end()) return false;
 		Room *new_room = roomLibrary[type]->create();
-		if (!new_room->Initialize(RoomNode)) return false;
+		if (!new_room->Initialize(roomNode)) return false;
 		rooms[new_room->getIdentifier()] = new_room;
 	}
 	return true;
