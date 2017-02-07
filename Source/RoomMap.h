@@ -1,6 +1,7 @@
 #ifndef ROOMMAP_H
 #define ROOMMAP_H
 
+#include<exception>
 #include<map>
 #include<string>
 #include<vector>
@@ -38,6 +39,17 @@ private:
 	//Private inventory loading/saving instructions
 	bool RoomMap::loadInventory(TiXmlElement*,std::map<std::string, std::string>&);
 	bool RoomMap::saveInventory(TiXmlElement*, std::map<std::string, std::string>&);
+};
+
+class MyException : std::exception
+{
+public:
+	MyException(std::string str) : text(str) {}
+	~MyException() {}
+	std::string getText() { return text; }
+
+private:
+	std::string text;
 };
 
 #endif

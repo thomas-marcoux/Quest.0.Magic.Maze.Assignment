@@ -1,5 +1,5 @@
 #include <algorithm>
-#include<iostream>
+#include <iostream>
 #include <random>
 #include <vector>
 #include "RoomMap.h"
@@ -142,14 +142,13 @@ bool	RoomMap::saveInventory(TiXmlElement* inventoryNode, std::map<std::string, s
 	return true;
 }
 
-
 //Load the saved state, returns the room the player saved the game in, or the current room if the loading fails
 Room*	RoomMap::loadState(Room* room, int &health)
 {
 	try
 	{
 		TiXmlDocument doc(SAVE_FILE);
-		if (!doc.LoadFile()) throw LOAD_ERROR;
+		if (!doc.LoadFile()) throw MyException(LOAD_ERROR);
 		TiXmlHandle headDoc(&doc);
 		TiXmlElement* elem;
 		TiXmlHandle root(0);
@@ -162,29 +161,30 @@ Room*	RoomMap::loadState(Room* room, int &health)
 
 		//Sets the root
 		elem = headDoc.FirstChildElement().Element();
-		if (!elem) throw PARSE_ERROR;
+		if (!elem) throw MyException(PARSE_ERROR);
 		root = TiXmlHandle(elem);
 		//Selects Player node and Player Inventory node and verififies they exist
 		playerNode = root.FirstChild("Player").Element();
-		if (!playerNode) throw PARSE_ERROR;
+		if (!playerNode) throw MyException(PARSE_ERROR);
 		attr_health = playerNode->Attribute("health");
 		attr_position = playerNode->Attribute("position");
-		if (!attr_health || !attr_position) throw PARSE_ERROR; //Checks attributes exist
-		if (rooms.find(attr_position) == rooms.end()) throw PARSE_ERROR; //Checks room loaded exists
+		if (!attr_health || !attr_position) throw MyException(PARSE_ERROR); //Checks attributes exist
+		if (rooms.find(attr_position) == rooms.end()) throw MyException(PARSE_ERROR); //Checks room loaded exists
 		playerInventoryNode = TiXmlHandle(playerNode).FirstChild("Inventory").Element();
-		if (!playerInventoryNode) throw PARSE_ERROR;
-		if (!loadInventory(playerInventoryNode, p_invent)) throw PARSE_ERROR;
+		if (!playerInventoryNode) throw MyException(PARSE_ERROR);
+		if (!loadInventory(playerInventoryNode, p_invent)) throw MyException(PARSE_ERROR);
 		roomInventoryNode = root.FirstChild("RoomInventory").Element();
-		if (!roomInventoryNode) throw PARSE_ERROR;
-		if (!loadInventory(roomInventoryNode, r_invent)) throw PARSE_ERROR;
+		if (!roomInventoryNode) throw MyException(PARSE_ERROR);
+		if (!loadInventory(roomInventoryNode, r_invent)) throw MyException(PARSE_ERROR);
 		playerInventory = p_invent;
 		roomInventory = r_invent;
 		health = atoi(attr_health);
 		return rooms.find(attr_position)->second;
 	}
-	catch (std::string error)
+	catch (MyException &e)
 	{
-		std::cout << error << " Restoring latest state." << std::endl;
+		std::cout << e.getText() << " Restoring latest state." << std::endl;
+		system("PAUSE");
 		return room;
 	}
 }
