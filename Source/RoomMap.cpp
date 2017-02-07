@@ -124,6 +124,7 @@ bool	RoomMap::saveState(Room* room, int &health)
 	root->LinkEndChild(r_inventory);
 	saveInventory(r_inventory, roomInventory);
 	doc.SaveFile(SAVE_FILE);
+	std::cout << "Game Saved." << std::endl;
 	return true;
 }
 
@@ -179,6 +180,7 @@ Room*	RoomMap::loadState(Room* room, int &health)
 		playerInventory = p_invent;
 		roomInventory = r_invent;
 		health = atoi(attr_health);
+		std::cout << "Game Loaded." << std::endl;
 		return rooms.find(attr_position)->second;
 	}
 	catch (MyException &e)

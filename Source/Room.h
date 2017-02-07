@@ -2,8 +2,10 @@
 #define ROOM_H
 
 #include<map>
+#include <iostream>
 #include<string>
 #include"definitions.h"
+#include "RoomMap.h"
 
 #include"ThirdParty\tinyxml\tinystr.h"
 #include"ThirdParty\tinyxml\tinyxml.h"
@@ -17,6 +19,7 @@ public:
 	Room() {}
 	~Room() {}
 	bool Initialize(TiXmlElement*);
+	std::string showPlayerInterface(RoomMap*, int&);
 	virtual Room* execute(RoomMap*, int &) = 0;
 	bool finish();
 	std::string next();
