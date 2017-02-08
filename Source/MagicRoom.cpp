@@ -1,4 +1,5 @@
 #include "MagicRoom.h"
+#include "RoomMap.h"
 
 /*
 The MagicRoom's execute function displays information,

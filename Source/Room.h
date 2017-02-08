@@ -5,7 +5,6 @@
 #include <iostream>
 #include<string>
 #include"definitions.h"
-#include "RoomMap.h"
 
 #include"ThirdParty\tinyxml\tinystr.h"
 #include"ThirdParty\tinyxml\tinyxml.h"

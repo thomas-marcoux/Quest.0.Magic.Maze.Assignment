@@ -1,5 +1,6 @@
 #include <set>
 #include "Room.h"
+#include "RoomMap.h"
 
 /*
 Initializes Room attributes from XML.

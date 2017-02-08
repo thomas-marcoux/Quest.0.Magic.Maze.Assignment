@@ -1,4 +1,5 @@
 #include "NormalRoom.h"
+#include "RoomMap.h"
 
 /*
 The NormalRoom's execute function displays information,
