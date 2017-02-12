@@ -39,7 +39,7 @@ RoomMap::RoomMap()
 /*
 Initializes the roomLibrary with factory classes and load the level
 from a xml file. Assigns items to the rooms.
-Returns false is the file could not be loaded.
+Returns false if the file could not be loaded.
 */
 bool RoomMap::Initialize(std::string configFile)
 {
@@ -109,9 +109,7 @@ bool	RoomMap::saveState(Room* room, int &health)
 	TiXmlElement * player = new TiXmlElement("Player");
 	TiXmlElement * p_inventory = new TiXmlElement("Inventory");
 	TiXmlElement * r_inventory = new TiXmlElement("RoomInventory");
-	TiXmlElement* p_item;
 	
-
 	doc.LinkEndChild(decl);
 	doc.LinkEndChild(root);
 	comment->SetValue("Player State");
