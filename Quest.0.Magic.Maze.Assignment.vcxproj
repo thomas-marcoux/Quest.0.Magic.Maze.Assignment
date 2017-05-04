@@ -80,6 +80,7 @@
     <ClInclude Include="Source\ThirdParty\tinyxml\tinyxml.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Quest.1.Zelda.1.Assignment\Source\ObjectFactory.cpp" />
     <ClCompile Include="Source\MagicRoom.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\NormalRoom.cpp" />

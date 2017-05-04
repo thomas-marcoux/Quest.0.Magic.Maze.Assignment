@@ -74,6 +74,9 @@
     <ClCompile Include="Source\NormalRoom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Quest.1.Zelda.1.Assignment\Source\ObjectFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Config\test.xml">
